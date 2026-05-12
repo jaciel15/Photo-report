@@ -3,117 +3,100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Photo Report</title>
+<title>Foto Report</title>
 
 <style>
 
 body{
+font-family:Arial,sans-serif;
+background:#f2f2f2;
 margin:0;
 padding:15px;
-background:#f2f2f2;
-font-family:Arial,sans-serif;
 }
 
 .container{
 max-width:1200px;
 margin:auto;
-}
-
-h1{
-text-align:center;
-font-size:38px;
-margin-bottom:20px;
-}
-
-.card{
 background:white;
-padding:15px;
-border-radius:15px;
-margin-bottom:20px;
-box-shadow:0 2px 10px rgba(0,0,0,0.1);
-}
-
-input,textarea{
-width:100%;
-padding:12px;
-margin-top:10px;
+padding:20px;
 border-radius:10px;
-border:1px solid #ccc;
-font-size:16px;
-box-sizing:border-box;
+box-shadow:0 0 10px rgba(0,0,0,.2);
 }
 
-textarea{
-height:120px;
-resize:none;
+h1,h2{
+text-align:center;
+margin:0;
 }
 
-.photo-grid{
+.grid{
 display:grid;
-grid-template-columns:1fr 1fr;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
 gap:10px;
-margin-top:15px;
+margin-top:20px;
 }
 
-.photo-box{
-background:#eaeaea;
-height:180px;
-border-radius:12px;
-display:flex;
-align-items:center;
-justify-content:center;
-overflow:hidden;
-position:relative;
-border:2px dashed #999;
-}
-
-.photo-box img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.photo-box input{
-position:absolute;
-width:100%;
-height:100%;
-opacity:0;
-cursor:pointer;
-}
-
-.label{
-font-weight:bold;
-margin-top:15px;
+input,select,button,textarea{
+padding:12px;
+border:1px solid black;
+border-radius:5px;
+font-size:14px;
 }
 
 button{
-width:100%;
-padding:15px;
-border:none;
-border-radius:12px;
 background:black;
 color:white;
-font-size:18px;
-margin-top:20px;
+font-weight:bold;
+cursor:pointer;
 }
 
-.report{
-background:white;
-padding:15px;
-border-radius:15px;
-margin-top:20px;
-}
-
-.report img{
-width:100%;
+.folder{
+border:2px solid black;
+padding:10px;
+margin-top:15px;
 border-radius:10px;
+}
+
+.folder-title{
+font-size:22px;
+font-weight:bold;
+margin-bottom:10px;
+cursor:pointer;
+}
+
+.card{
+border:1px solid #ccc;
+border-radius:10px;
+padding:10px;
+margin-top:10px;
+background:#f8f8f8;
+}
+
+.card img{
+width:100%;
+max-width:180px;
+border-radius:8px;
+margin-top:5px;
+border:1px solid #ccc;
+}
+
+.top-buttons{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
 margin-top:10px;
 }
 
-.small{
-font-size:14px;
-color:gray;
+.red{
+background:red;
+}
+
+.gray{
+background:#444;
+}
+
+textarea{
+width:100%;
+height:120px;
 }
 
 </style>
@@ -123,155 +106,380 @@ color:gray;
 
 <div class="container">
 
-<h1>Photo Report</h1>
+<h1>VELOCIMETROS CHARLY</h1>
+<h2>FOTO REPORT</h2>
 
-<div class="card">
+<div class="grid">
 
-<input type="text" id="vehiculo" placeholder="Vehículo">
+<select id="folderSelect"></select>
 
-<input type="text" id="placa" placeholder="Placas">
+<input type="text" id="newFolder" placeholder="Nueva carpeta">
 
-<input type="text" id="kmAnterior" placeholder="KM anterior">
+<button onclick="crearCarpeta()">CREAR CARPETA</button>
 
-<input type="text" id="kmNuevo" placeholder="KM nuevo">
+<input type="text" id="placas" placeholder="PLACAS">
+
+<input type="number" id="kmAnterior" placeholder="KM ANTERIOR">
+
+<input type="number" id="kmNuevo" placeholder="KM NUEVO">
 
 <input type="text" id="vin" placeholder="VIN">
 
-<div class="label">Texto WhatsApp</div>
+<input type="file" id="fotoAnterior" accept="image/*">
 
-<textarea id="whatsapp"></textarea>
+<input type="file" id="fotoNuevo" accept="image/*">
 
-<div class="small" id="fecha"></div>
+<input type="file" id="fotoVehiculo" accept="image/*">
 
-<div class="photo-grid">
-
-<div class="photo-box">
-<span>KM Anterior</span>
-<input type="file" accept="image/*" capture="environment" onchange="loadImage(event,0)">
-<img id="img0">
-</div>
-
-<div class="photo-box">
-<span>KM Nuevo</span>
-<input type="file" accept="image/*" capture="environment" onchange="loadImage(event,1)">
-<img id="img1">
-</div>
-
-<div class="photo-box">
-<span>Vehículo</span>
-<input type="file" accept="image/*" capture="environment" onchange="loadImage(event,2)">
-<img id="img2">
-</div>
-
-<div class="photo-box">
-<span>VIN</span>
-<input type="file" accept="image/*" capture="environment" onchange="loadImage(event,3)">
-<img id="img3">
-</div>
+<input type="file" id="fotoVin" accept="image/*">
 
 </div>
 
-<button onclick="guardarReporte()">
-Guardar Reporte
+<div class="top-buttons">
+
+<textarea id="whatsappText" placeholder="PEGA AQUÍ EL TEXTO DE WHATSAPP"></textarea>
+
+<button onclick="importarWhatsApp()">
+IMPORTAR WHATSAPP
+</button>
+
+<button onclick="agregarRegistro()">
+AGREGAR VEHÍCULO
 </button>
 
 </div>
 
-<div id="historial"></div>
+<div id="folders"></div>
 
 </div>
 
 <script>
 
-let fotos = ["","","",""];
+let data = JSON.parse(localStorage.getItem('fotoreport')) || {
 
-document.getElementById("fecha").innerHTML =
-"Fecha: " + new Date().toLocaleDateString();
+folders:['AVEO','L200','HB20','F-150'],
 
-function loadImage(event,index){
-
-let file = event.target.files[0];
-
-if(!file)return;
-
-let reader = new FileReader();
-
-reader.onload = function(e){
-
-fotos[index] = e.target.result;
-
-document.getElementById("img"+index).src = e.target.result;
-
-}
-
-reader.readAsDataURL(file);
-
-}
-
-function guardarReporte(){
-
-let reporte = {
-
-vehiculo:document.getElementById("vehiculo").value,
-
-placa:document.getElementById("placa").value,
-
-kmAnterior:document.getElementById("kmAnterior").value,
-
-kmNuevo:document.getElementById("kmNuevo").value,
-
-vin:document.getElementById("vin").value,
-
-whatsapp:document.getElementById("whatsapp").value,
-
-fecha:new Date().toLocaleDateString(),
-
-fotos:fotos
+records:[]
 
 };
 
-let reportes = JSON.parse(localStorage.getItem("photoReports")) || [];
+function saveData(){
 
-reportes.push(reporte);
-
-localStorage.setItem("photoReports",JSON.stringify(reportes));
-
-mostrarHistorial();
-
-alert("Reporte guardado");
+localStorage.setItem('fotoreport',JSON.stringify(data));
 
 }
 
-function mostrarHistorial(){
+function renderFolderSelect(){
 
-let reportes = JSON.parse(localStorage.getItem("photoReports")) || [];
+let select = document.getElementById('folderSelect');
 
-let html = "";
+select.innerHTML='';
 
-reportes.reverse().forEach(function(r){
+data.folders.forEach(f=>{
 
-html += `
+select.innerHTML += `<option value="${f}">${f}</option>`;
 
-<div class="report">
+});
 
-<h2>${r.vehiculo}</h2>
+}
 
-<p><b>Placa:</b> ${r.placa}</p>
+function crearCarpeta(){
 
-<p><b>KM anterior:</b> ${r.kmAnterior}</p>
+let nombre = document.getElementById('newFolder').value.trim().toUpperCase();
 
-<p><b>KM nuevo:</b> ${r.kmNuevo}</p>
+if(!nombre){
+alert('Escribe nombre');
+return;
+}
 
-<p><b>VIN:</b> ${r.vin}</p>
+if(data.folders.includes(nombre)){
+alert('Ya existe');
+return;
+}
 
-<p><b>Fecha:</b> ${r.fecha}</p>
+data.folders.push(nombre);
 
-<pre>${r.whatsapp}</pre>
+saveData();
 
-<img src="${r.fotos[0]}">
-<img src="${r.fotos[1]}">
-<img src="${r.fotos[2]}">
-<img src="${r.fotos[3]}">
+renderFolderSelect();
+
+renderFolders();
+
+document.getElementById('newFolder').value='';
+
+}
+
+function importarWhatsApp(){
+
+let texto = document.getElementById('whatsappText').value;
+
+let lineas = texto.split('\n');
+
+let auto = '';
+let placa = '';
+let kmAnterior = '';
+let kmNuevo = '';
+let vin = '';
+
+lineas.forEach(linea=>{
+
+let l = linea.replace(/\*/g,'').trim();
+
+if(l.includes('AUTO')){
+
+auto = l.split(':')[1]?.trim() || '';
+
+let autoUpper = auto.toUpperCase();
+
+if(autoUpper !== '' && !data.folders.includes(autoUpper)){
+
+data.folders.push(autoUpper);
+
+saveData();
+
+renderFolderSelect();
+
+renderFolders();
+
+}
+
+}
+
+if(l.includes('PLACA')){
+
+placa = l.split(':')[1]?.trim() || '';
+
+}
+
+if(l.includes('KM anterior')){
+
+kmAnterior = l.split(':')[1]?.trim() || '';
+
+}
+
+if(l.includes('CORECTO KM')){
+
+kmNuevo = l.split(':')[1]?.trim() || '';
+
+}
+
+if(l.includes('VIN')){
+
+vin = l.split(':')[1]?.trim() || '';
+
+}
+
+});
+
+document.getElementById('folderSelect').value = auto.toUpperCase();
+
+document.getElementById('placas').value = placa;
+
+document.getElementById('kmAnterior').value = kmAnterior;
+
+document.getElementById('kmNuevo').value = kmNuevo;
+
+document.getElementById('vin').value = vin;
+
+}
+
+function agregarRegistro(){
+
+let folder = document.getElementById('folderSelect').value;
+
+let placas = document.getElementById('placas').value;
+
+let kmAnterior = document.getElementById('kmAnterior').value;
+
+let kmNuevo = document.getElementById('kmNuevo').value;
+
+let vin = document.getElementById('vin').value;
+
+let textoWhatsapp = document.getElementById('whatsappText').value;
+
+let fotoAnterior = document.getElementById('fotoAnterior').files[0];
+
+let fotoNuevo = document.getElementById('fotoNuevo').files[0];
+
+let fotoVehiculo = document.getElementById('fotoVehiculo').files[0];
+
+let fotoVin = document.getElementById('fotoVin').files[0];
+
+if(!folder || !placas || !kmAnterior || !kmNuevo){
+
+alert('Completa los datos');
+
+return;
+
+}
+
+let existentes = data.records.filter(r=>r.folder===folder);
+
+let numeroArchivo = Math.floor(existentes.length / 20) + 1;
+
+let archivo = folder + '_RF' + numeroArchivo;
+
+let fechaAuto = new Date().toLocaleDateString('es-MX');
+
+data.records.push({
+
+folder,
+archivo,
+placas,
+kmAnterior,
+kmNuevo,
+vin,
+textoWhatsapp,
+
+fotoAnterior: fotoAnterior ? URL.createObjectURL(fotoAnterior) : '',
+
+fotoNuevo: fotoNuevo ? URL.createObjectURL(fotoNuevo) : '',
+
+fotoVehiculo: fotoVehiculo ? URL.createObjectURL(fotoVehiculo) : '',
+
+fotoVin: fotoVin ? URL.createObjectURL(fotoVin) : '',
+
+fecha:fechaAuto
+
+});
+
+saveData();
+
+renderFolders();
+
+document.getElementById('placas').value='';
+
+document.getElementById('kmAnterior').value='';
+
+document.getElementById('kmNuevo').value='';
+
+document.getElementById('vin').value='';
+
+document.getElementById('whatsappText').value='';
+
+}
+
+function borrarRegistro(index){
+
+if(confirm('¿Borrar vehículo?')){
+
+data.records.splice(index,1);
+
+saveData();
+
+renderFolders();
+
+}
+
+}
+
+function borrarCarpeta(folder){
+
+if(confirm('¿Borrar carpeta completa?')){
+
+data.records = data.records.filter(r=>r.folder!==folder);
+
+data.folders = data.folders.filter(f=>f!==folder);
+
+saveData();
+
+renderFolderSelect();
+
+renderFolders();
+
+}
+
+}
+
+function renderFolders(){
+
+let div = document.getElementById('folders');
+
+div.innerHTML='';
+
+data.folders.forEach(folder=>{
+
+let registros = data.records.filter(r=>r.folder===folder);
+
+div.innerHTML += `
+
+<div class="folder">
+
+<div class="folder-title" onclick="toggleFolder('${folder}')">
+
+📁 ${folder}
+
+</div>
+
+<button class="red" onclick="borrarCarpeta('${folder}')">
+
+BORRAR CARPETA
+
+</button>
+
+<div id="content_${folder}" style="display:none;">
+
+${registros.map((r,index)=>`
+
+<div class="card">
+
+<b>🚗 ${r.placas}</b><br><br>
+
+KM ANTERIOR: ${r.kmAnterior}<br>
+
+KM NUEVO: ${r.kmNuevo}<br>
+
+VIN: ${r.vin}<br>
+
+ARCHIVO: ${r.archivo}<br>
+
+FECHA: ${r.fecha}<br><br>
+
+<b>WHATSAPP:</b><br>
+
+<pre>${r.textoWhatsapp}</pre>
+
+<div class="top-buttons">
+
+<div>
+KM ANTERIOR<br>
+<img src="${r.fotoAnterior}">
+</div>
+
+<div>
+KM NUEVO<br>
+<img src="${r.fotoNuevo}">
+</div>
+
+<div>
+VEHÍCULO<br>
+<img src="${r.fotoVehiculo}">
+</div>
+
+<div>
+VIN<br>
+<img src="${r.fotoVin}">
+</div>
+
+</div>
+
+<div class="top-buttons">
+
+<button class="gray">
+PDF
+</button>
+
+<button class="red" onclick="borrarRegistro(${index})">
+BORRAR
+</button>
+
+</div>
+
+</div>
+
+`).join('')}
+
+</div>
 
 </div>
 
@@ -279,11 +487,27 @@ html += `
 
 });
 
-document.getElementById("historial").innerHTML = html;
+}
+
+function toggleFolder(folder){
+
+let div = document.getElementById('content_' + folder);
+
+if(div.style.display === 'none'){
+
+div.style.display='block';
+
+}else{
+
+div.style.display='none';
 
 }
 
-mostrarHistorial();
+}
+
+renderFolderSelect();
+
+renderFolders();
 
 </script>
 
