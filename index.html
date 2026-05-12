@@ -24,10 +24,19 @@ border-radius:35px;
 box-shadow:0 0 20px rgba(0,0,0,0.2);
 }
 
-h1{
+.logo{
 text-align:center;
-font-size:55px;
-margin-bottom:20px;
+font-size:65px;
+font-weight:900;
+margin-bottom:30px;
+letter-spacing:4px;
+color:#00ffe5;
+text-shadow:
+0 0 5px #00ffe5,
+0 0 10px #00ffe5,
+0 0 20px #00ffe5,
+0 0 40px #00bfff;
+font-family:Arial Black,sans-serif;
 }
 
 textarea{
@@ -51,6 +60,7 @@ background:white;
 
 .photo-box h2{
 font-size:40px;
+margin-bottom:15px;
 }
 
 .photo-box img{
@@ -131,18 +141,56 @@ font-size:22px;
 white-space:pre-line;
 }
 
+.vehicle-card{
+border:4px solid #00d9ff;
+border-radius:25px;
+padding:15px;
+margin-top:15px;
+background:#fdfdfd;
+box-shadow:0 0 15px #00e5ff;
+}
+
+.vehicle-card h3{
+font-size:28px;
+margin:0 0 10px 0;
+}
+
+.vehicle-card button{
+font-size:20px;
+padding:15px;
+margin-top:10px;
+}
+
+.edit-btn{
+background:#00cfff;
+color:white;
+}
+
+.move-btn{
+background:#ff00ff;
+color:white;
+}
+
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
-<h1>📸 Foto Report</h1>
+<h1 class="logo">
+📸 FOTO REPORT
+</h1>
 
-<textarea id="textoWhatsapp" rows="10"
-placeholder="Pega texto WhatsApp aquí"></textarea>
+<textarea
+id="textoWhatsapp"
+rows="10"
+placeholder="Pega texto WhatsApp aquí">
+</textarea>
 
-<button class="import-btn" onclick="importarWhatsapp()">
+<button
+class="import-btn"
+onclick="importarWhatsapp()">
 IMPORTAR WHATSAPP
 </button>
 
@@ -150,11 +198,13 @@ IMPORTAR WHATSAPP
 
 <h2>KM ANTERIOR</h2>
 
-<input type="file"
+<input
+type="file"
 accept="image/*"
 onchange="cargarFoto(event,'foto1')">
 
-<img id="foto1"
+<img
+id="foto1"
 onclick="window.currentPhotoTarget='foto1'">
 
 </div>
@@ -163,11 +213,13 @@ onclick="window.currentPhotoTarget='foto1'">
 
 <h2>KM NUEVO</h2>
 
-<input type="file"
+<input
+type="file"
 accept="image/*"
 onchange="cargarFoto(event,'foto2')">
 
-<img id="foto2"
+<img
+id="foto2"
 onclick="window.currentPhotoTarget='foto2'">
 
 </div>
@@ -176,11 +228,13 @@ onclick="window.currentPhotoTarget='foto2'">
 
 <h2>VEHÍCULO / TARJETA</h2>
 
-<input type="file"
+<input
+type="file"
 accept="image/*"
 onchange="cargarFoto(event,'foto3')">
 
-<img id="foto3"
+<img
+id="foto3"
 onclick="window.currentPhotoTarget='foto3'">
 
 </div>
@@ -189,18 +243,24 @@ onclick="window.currentPhotoTarget='foto3'">
 
 <h2>VIN</h2>
 
-<input type="file"
+<input
+type="file"
 accept="image/*"
 onchange="cargarFoto(event,'foto4')">
 
-<img id="foto4"
+<img
+id="foto4"
 onclick="window.currentPhotoTarget='foto4'">
 
 </div>
 
-<div class="preview" id="previewTexto"></div>
+<div
+class="preview"
+id="previewTexto">
+</div>
 
-<button class="save-btn"
+<button
+class="save-btn"
 onclick="guardarReporte()">
 AGREGAR VEHÍCULO
 </button>
@@ -264,14 +324,16 @@ vin: extraer("VIN")
 
 };
 
-document.getElementById("previewTexto")
-.innerText = texto;
+document.getElementById(
+"previewTexto"
+).innerText = texto;
 
 }
 
 function guardarReporte(){
 
-let vehiculo = datosImportados.vehiculo;
+let vehiculo =
+datosImportados.vehiculo;
 
 if(!vehiculo){
 
@@ -295,10 +357,13 @@ kmAnterior: datosImportados.kmAnterior,
 kmNuevo: datosImportados.kmNuevo,
 vin: datosImportados.vin,
 
-fecha: new Date().toLocaleDateString(),
+fecha:
+new Date().toLocaleDateString(),
 
 texto:
-document.getElementById("textoWhatsapp").value,
+document.getElementById(
+"textoWhatsapp"
+).value,
 
 foto1:
 document.getElementById("foto1").src,
@@ -368,6 +433,23 @@ renderFolders();
 
 }
 
+function editarVehiculo(nombre,index){
+
+alert(
+"Próximamente edición completa de " +
+nombre
+);
+
+}
+
+function moverFotos(nombre,index){
+
+alert(
+"Próximamente mover imágenes"
+);
+
+}
+
 function generarPDF(nombre){
 
 alert(
@@ -395,21 +477,67 @@ div.innerHTML += `
 
 <div class="folder-buttons">
 
-<button class="delete-folder"
+<button
+class="delete-folder"
 onclick="borrarCarpeta('${nombre}')">
 BORRAR CARPETA
 </button>
 
-<button class="pdf-btn"
+<button
+class="pdf-btn"
 onclick="generarPDF('${nombre}')">
 PDF
 </button>
 
 </div>
 
+`;
+
+carpetas[nombre].forEach((r,index)=>{
+
+div.innerHTML += `
+
+<div class="vehicle-card">
+
+<h3>
+🚗 ${r.placa}
+</h3>
+
+<div>
+KM:
+${r.kmAnterior}
+→
+${r.kmNuevo}
+</div>
+
+<div>
+VIN:
+${r.vin}
+</div>
+
+<div>
+📅 ${r.fecha}
+</div>
+
+<button
+class="edit-btn"
+onclick="editarVehiculo('${nombre}',${index})">
+EDITAR
+</button>
+
+<button
+class="move-btn"
+onclick="moverFotos('${nombre}',${index})">
+MOVER FOTOS
+</button>
+
 </div>
 
 `;
+
+});
+
+div.innerHTML += `</div>`;
 
 }
 
@@ -423,22 +551,26 @@ const items =
 (e.clipboardData ||
 e.originalEvent.clipboardData).items;
 
-for (let item of items){
+for(let item of items){
 
 if(item.type.indexOf("image") === 0){
 
-const blob = item.getAsFile();
+const blob =
+item.getAsFile();
 
-const reader = new FileReader();
+const reader =
+new FileReader();
 
-reader.onload = function(event){
+reader.onload =
+function(event){
 
-const base64 = event.target.result;
+const base64 =
+event.target.result;
 
 if(!window.currentPhotoTarget){
 
 alert(
-"Primero toca la imagen donde quieres pegar la foto"
+"Toca primero la imagen donde pegarás la foto"
 );
 
 return;
