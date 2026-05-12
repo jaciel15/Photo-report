@@ -205,11 +205,11 @@ white-space:pre-line;
 
 border:4px solid black;
 
-border-radius:28px;
+border-radius:24px;
 
-padding:15px;
+padding:12px;
 
-margin-top:22px;
+margin-top:18px;
 
 background:white;
 
@@ -229,7 +229,7 @@ cursor:pointer;
 
 .folder-title{
 
-font-size:34px;
+font-size:26px;
 
 font-weight:900;
 
@@ -237,18 +237,24 @@ font-family:Arial Black,sans-serif;
 
 color:#00f7ff;
 
--webkit-text-stroke:1.5px black;
+-webkit-text-stroke:1px black;
 
 text-shadow:
-0 0 5px #00f7ff,
-0 0 10px #00f7ff,
-2px 2px 0px black;
+0 0 4px #00f7ff,
+0 0 8px #00f7ff,
+1px 1px 0px black;
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
 
 }
 
 .arrow{
 
-font-size:34px;
+font-size:24px;
 
 font-weight:bold;
 
@@ -258,9 +264,9 @@ font-weight:bold;
 
 display:flex;
 
-gap:12px;
+gap:10px;
 
-margin-top:15px;
+margin-top:10px;
 
 }
 
@@ -276,22 +282,22 @@ background:linear-gradient(
 
 color:white;
 
-padding:14px;
+padding:12px;
 
-border-radius:22px;
+border-radius:18px;
 
-font-size:20px;
+font-size:16px;
 
 font-weight:bold;
 
 box-shadow:
-0 0 15px #00d9ff;
+0 0 10px #00d9ff;
 
 }
 
 .pdf-btn{
 
-width:150px;
+width:130px;
 
 background:linear-gradient(
 145deg,
@@ -301,32 +307,46 @@ background:linear-gradient(
 
 color:white;
 
-font-size:20px;
+font-size:16px;
+
+border-radius:18px;
 
 }
 
-/* ========= VEHÍCULOS ========= */
+/* ========= TARJETA VEHÍCULO ========= */
 
 .vehicle-card{
 
 border:4px solid #00d9ff;
 
-border-radius:28px;
+border-radius:24px;
 
-padding:16px;
+padding:12px;
 
-margin-top:18px;
+margin-top:14px;
 
 background:white;
 
 box-shadow:
-0 0 12px #00e5ff;
+0 0 10px #00e5ff;
+
+}
+
+.vehicle-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+cursor:pointer;
 
 }
 
 .vehicle-card h3{
 
-font-size:32px;
+font-size:24px;
 
 margin:0;
 
@@ -336,13 +356,25 @@ font-family:Arial Black;
 
 .vehicle-card div{
 
-font-size:19px;
+font-size:16px;
 
-margin-top:8px;
+margin-top:5px;
+
+}
+
+.vehicle-buttons{
+
+display:flex;
+
+gap:10px;
+
+margin-top:12px;
 
 }
 
 .edit-btn{
+
+flex:1;
 
 background:linear-gradient(
 145deg,
@@ -353,13 +385,19 @@ background:linear-gradient(
 color:white;
 
 box-shadow:
-0 0 12px #00e5ff;
+0 0 10px #00e5ff;
 
-font-size:20px;
+font-size:15px;
+
+padding:12px;
+
+border-radius:16px;
 
 }
 
 .move-btn{
+
+flex:1;
 
 background:linear-gradient(
 145deg,
@@ -370,9 +408,36 @@ background:linear-gradient(
 color:white;
 
 box-shadow:
-0 0 12px #ff00ff;
+0 0 10px #ff00ff;
 
-font-size:20px;
+font-size:15px;
+
+padding:12px;
+
+border-radius:16px;
+
+}
+
+.delete-vehicle{
+
+flex:1;
+
+background:linear-gradient(
+145deg,
+#ff2d2d,
+#ff0000
+);
+
+color:white;
+
+box-shadow:
+0 0 10px #ff4d4d;
+
+font-size:15px;
+
+padding:12px;
+
+border-radius:16px;
 
 }
 
@@ -399,7 +464,7 @@ onclick="importarWhatsapp()">
 IMPORTAR WHATSAPP
 </button>
 
-<!-- ========= FOTO 1 ========= -->
+<!-- FOTO 1 -->
 
 <div class="photo-box">
 
@@ -416,7 +481,7 @@ onclick="window.currentPhotoTarget='foto1'">
 
 </div>
 
-<!-- ========= FOTO 2 ========= -->
+<!-- FOTO 2 -->
 
 <div class="photo-box">
 
@@ -433,7 +498,7 @@ onclick="window.currentPhotoTarget='foto2'">
 
 </div>
 
-<!-- ========= FOTO 3 ========= -->
+<!-- FOTO 3 -->
 
 <div class="photo-box">
 
@@ -450,7 +515,7 @@ onclick="window.currentPhotoTarget='foto3'">
 
 </div>
 
-<!-- ========= FOTO 4 ========= -->
+<!-- FOTO 4 -->
 
 <div class="photo-box">
 
@@ -655,13 +720,38 @@ datosImportados = {};
 
 }
 
-/* ========= BORRAR ========= */
+/* ========= BORRAR CARPETA ========= */
 
 function borrarCarpeta(nombre){
 
 if(confirm("¿Borrar carpeta completa?")){
 
 delete carpetas[nombre];
+
+localStorage.setItem(
+"carpetas",
+JSON.stringify(carpetas)
+);
+
+renderFolders();
+
+}
+
+}
+
+/* ========= BORRAR VEHÍCULO ========= */
+
+function borrarVehiculo(nombre,index){
+
+if(confirm("¿Borrar vehículo?")){
+
+carpetas[nombre].splice(index,1);
+
+if(carpetas[nombre].length === 0){
+
+delete carpetas[nombre];
+
+}
 
 localStorage.setItem(
 "carpetas",
@@ -725,6 +815,25 @@ div.style.display = 'none';
 
 }
 
+function toggleVehicle(id){
+
+let div =
+document.getElementById(
+'vehicle_' + id
+);
+
+if(div.style.display === 'none'){
+
+div.style.display = 'block';
+
+}else{
+
+div.style.display = 'none';
+
+}
+
+}
+
 /* ========= RENDER ========= */
 
 function renderFolders(){
@@ -748,7 +857,7 @@ onclick="toggleFolder('${nombre}')">
 
 <div class="folder-title">
 
-${nombre}
+📁 ${nombre}
 
 </div>
 
@@ -790,9 +899,23 @@ div.innerHTML += `
 
 <div class="vehicle-card">
 
+<div
+class="vehicle-header"
+onclick="toggleVehicle('${nombre}_${index}')">
+
 <h3>
 🚗 ${r.placa}
 </h3>
+
+<div class="arrow">
+⌄
+</div>
+
+</div>
+
+<div
+id="vehicle_${nombre}_${index}"
+style="display:block;">
 
 <div>
 KM: → ${r.kmNuevo}
@@ -805,6 +928,8 @@ VIN: ${r.vin}
 <div>
 📅 ${r.fecha}
 </div>
+
+<div class="vehicle-buttons">
 
 <button
 class="edit-btn"
@@ -821,6 +946,18 @@ onclick="moverFotos('${nombre}',${index})">
 MOVER FOTOS
 
 </button>
+
+<button
+class="delete-vehicle"
+onclick="borrarVehiculo('${nombre}',${index})">
+
+BORRAR
+
+</button>
+
+</div>
+
+</div>
 
 </div>
 
