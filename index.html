@@ -24,20 +24,51 @@ border-radius:35px;
 box-shadow:0 0 20px rgba(0,0,0,0.2);
 }
 
+/* ========= LOGO ========= */
+
 .logo{
+
 text-align:center;
-font-size:65px;
+
+font-size:72px;
+
 font-weight:900;
-margin-bottom:30px;
+
+margin-bottom:35px;
+
 letter-spacing:4px;
-color:#00ffe5;
-text-shadow:
-0 0 5px #00ffe5,
-0 0 10px #00ffe5,
-0 0 20px #00ffe5,
-0 0 40px #00bfff;
+
 font-family:Arial Black,sans-serif;
+
+color:#00f7ff;
+
+-webkit-text-stroke:3px black;
+
+text-shadow:
+0 0 5px #00f7ff,
+0 0 10px #00f7ff,
+0 0 20px #00f7ff,
+0 0 40px #00bfff,
+4px 4px 0px black;
+
+background:linear-gradient(
+145deg,
+#111,
+#222,
+#000
+);
+
+padding:15px;
+
+border-radius:25px;
+
+box-shadow:
+0 0 20px #00e5ff,
+0 0 40px #00e5ff;
+
 }
+
+/* ========= TEXTAREA ========= */
 
 textarea{
 width:100%;
@@ -48,6 +79,8 @@ border:5px solid black;
 font-size:22px;
 box-sizing:border-box;
 }
+
+/* ========= FOTO ========= */
 
 .photo-box{
 border:5px dashed #ff4dff;
@@ -72,6 +105,8 @@ margin-top:15px;
 display:none;
 }
 
+/* ========= BOTONES ========= */
+
 button{
 width:100%;
 padding:22px;
@@ -81,6 +116,11 @@ border-radius:28px;
 font-size:28px;
 font-weight:bold;
 cursor:pointer;
+transition:0.2s;
+}
+
+button:active{
+transform:scale(0.97);
 }
 
 .import-btn{
@@ -89,10 +129,28 @@ color:white;
 }
 
 .save-btn{
-background:linear-gradient(145deg,#ff00ff,#ff33cc);
+
+background:linear-gradient(
+145deg,
+#ff00ff,
+#ff33cc
+);
+
 color:white;
-box-shadow:0 0 30px #ff66ff;
+
+box-shadow:
+0 0 20px #ff00ff,
+0 0 40px rgba(255,0,255,0.5);
+
+font-size:32px;
+
+font-weight:900;
+
+letter-spacing:2px;
+
 }
+
+/* ========= CARPETAS ========= */
 
 .folder{
 border:4px solid black;
@@ -103,9 +161,33 @@ background:white;
 }
 
 .folder-title{
-font-size:35px;
-font-weight:bold;
-margin-bottom:15px;
+
+font-size:55px;
+
+font-weight:900;
+
+margin-bottom:20px;
+
+font-family:Arial Black,sans-serif;
+
+color:#00f7ff;
+
+-webkit-text-stroke:2px black;
+
+text-shadow:
+0 0 5px #00f7ff,
+0 0 10px #00f7ff,
+0 0 20px #00f7ff,
+3px 3px 0px black;
+
+transition:0.3s;
+
+cursor:pointer;
+
+}
+
+.folder.closed .vehicle-card{
+display:none;
 }
 
 .folder-buttons{
@@ -114,21 +196,95 @@ gap:15px;
 }
 
 .delete-folder{
+
 flex:1;
-background:linear-gradient(145deg,#00cfff,#0066ff);
+
+background:linear-gradient(
+145deg,
+#00cfff,
+#0066ff
+);
+
 color:white;
-border:none;
+
 padding:18px;
+
 border-radius:25px;
+
 font-size:24px;
+
 font-weight:bold;
-box-shadow:0 0 20px #00d9ff;
+
+box-shadow:
+0 0 20px #00d9ff;
+
 }
 
 .pdf-btn{
+
 width:170px;
-background:#555;
+
+background:linear-gradient(
+145deg,
+#444,
+#222
+);
+
 color:white;
+
+box-shadow:
+0 0 10px rgba(0,0,0,0.5);
+
+}
+
+/* ========= VEHÍCULOS ========= */
+
+.vehicle-card{
+
+border:5px solid #00d9ff;
+
+border-radius:30px;
+
+padding:20px;
+
+margin-top:18px;
+
+background:white;
+
+box-shadow:
+0 0 15px #00e5ff,
+0 0 30px rgba(0,255,255,0.3);
+
+}
+
+.edit-btn{
+
+background:linear-gradient(
+145deg,
+#00e5ff,
+#00bfff
+);
+
+color:white;
+
+box-shadow:
+0 0 15px #00e5ff;
+
+}
+
+.move-btn{
+
+background:linear-gradient(
+145deg,
+#ff00ff,
+#d100ff
+);
+
+color:white;
+
+box-shadow:
+0 0 15px #ff00ff;
+
 }
 
 .preview{
@@ -141,36 +297,6 @@ font-size:22px;
 white-space:pre-line;
 }
 
-.vehicle-card{
-border:4px solid #00d9ff;
-border-radius:25px;
-padding:15px;
-margin-top:15px;
-background:#fdfdfd;
-box-shadow:0 0 15px #00e5ff;
-}
-
-.vehicle-card h3{
-font-size:28px;
-margin:0 0 10px 0;
-}
-
-.vehicle-card button{
-font-size:20px;
-padding:15px;
-margin-top:10px;
-}
-
-.edit-btn{
-background:#00cfff;
-color:white;
-}
-
-.move-btn{
-background:#ff00ff;
-color:white;
-}
-
 </style>
 </head>
 
@@ -179,7 +305,7 @@ color:white;
 <div class="container">
 
 <h1 class="logo">
-📸 FOTO REPORT
+FOTO REPORT
 </h1>
 
 <textarea
@@ -276,6 +402,8 @@ JSON.parse(localStorage.getItem("carpetas")) || {};
 
 let datosImportados = {};
 
+/* ========= CARGAR FOTO ========= */
+
 function cargarFoto(event,id){
 
 const file = event.target.files[0];
@@ -297,6 +425,8 @@ img.style.display = "block";
 reader.readAsDataURL(file);
 
 }
+
+/* ========= IMPORTAR WHATSAPP ========= */
 
 function importarWhatsapp(){
 
@@ -329,6 +459,8 @@ document.getElementById(
 ).innerText = texto;
 
 }
+
+/* ========= GUARDAR ========= */
 
 function guardarReporte(){
 
@@ -392,6 +524,8 @@ limpiarCampos();
 
 }
 
+/* ========= LIMPIAR ========= */
+
 function limpiarCampos(){
 
 document.getElementById(
@@ -416,6 +550,8 @@ datosImportados = {};
 
 }
 
+/* ========= BORRAR ========= */
+
 function borrarCarpeta(nombre){
 
 if(confirm("¿Borrar carpeta completa?")){
@@ -433,14 +569,17 @@ renderFolders();
 
 }
 
+/* ========= EDITAR ========= */
+
 function editarVehiculo(nombre,index){
 
 alert(
-"Próximamente edición completa de " +
-nombre
+"Próximamente edición completa"
 );
 
 }
+
+/* ========= MOVER ========= */
 
 function moverFotos(nombre,index){
 
@@ -450,6 +589,8 @@ alert(
 
 }
 
+/* ========= PDF ========= */
+
 function generarPDF(nombre){
 
 alert(
@@ -457,6 +598,38 @@ alert(
 );
 
 }
+
+/* ========= ABRIR / CERRAR ========= */
+
+function toggleFolder(folder){
+
+let div =
+document.getElementById(
+'content_' + folder
+);
+
+let parent =
+document.getElementById(
+'folder_' + folder
+);
+
+if(div.style.display === 'none'){
+
+div.style.display = 'block';
+
+parent.classList.remove('closed');
+
+}else{
+
+div.style.display = 'none';
+
+parent.classList.add('closed');
+
+}
+
+}
+
+/* ========= RENDER ========= */
 
 function renderFolders(){
 
@@ -469,24 +642,36 @@ for(let nombre in carpetas){
 
 div.innerHTML += `
 
-<div class="folder">
+<div class="folder closed"
+id="folder_${nombre}">
 
-<div class="folder-title">
-📁 ${nombre}
+<div class="folder-title"
+onclick="toggleFolder('${nombre}')">
+
+${nombre}
+
 </div>
+
+<div
+id="content_${nombre}"
+style="display:none;">
 
 <div class="folder-buttons">
 
 <button
 class="delete-folder"
 onclick="borrarCarpeta('${nombre}')">
+
 BORRAR CARPETA
+
 </button>
 
 <button
 class="pdf-btn"
 onclick="generarPDF('${nombre}')">
+
 PDF
+
 </button>
 
 </div>
@@ -499,36 +684,57 @@ div.innerHTML += `
 
 <div class="vehicle-card">
 
-<h3>
-🚗 ${r.placa}
+<h3 style="
+font-size:45px;
+margin:0;
+font-family:Arial Black;
+">
+${r.placa}
 </h3>
 
-<div>
+<div style="
+font-size:28px;
+margin-top:10px;
+">
+
 KM:
-${r.kmAnterior}
-→
-${r.kmNuevo}
+→ ${r.kmNuevo}
+
 </div>
 
-<div>
+<div style="
+font-size:24px;
+margin-top:8px;
+">
+
 VIN:
 ${r.vin}
+
 </div>
 
-<div>
+<div style="
+font-size:22px;
+margin-top:8px;
+">
+
 📅 ${r.fecha}
+
 </div>
 
 <button
 class="edit-btn"
 onclick="editarVehiculo('${nombre}',${index})">
+
 EDITAR
+
 </button>
 
 <button
 class="move-btn"
 onclick="moverFotos('${nombre}',${index})">
+
 MOVER FOTOS
+
 </button>
 
 </div>
@@ -537,11 +743,19 @@ MOVER FOTOS
 
 });
 
-div.innerHTML += `</div>`;
+div.innerHTML += `
+
+</div>
+
+</div>
+
+`;
 
 }
 
 }
+
+/* ========= PEGAR IMÁGENES ========= */
 
 document.addEventListener(
 "paste",
