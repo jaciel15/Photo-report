@@ -1,105 +1,175 @@
 <!DOCTYPE html>
+
 <html lang="es">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Foto Report</title>
 
 <style>
 
 body{
+
 font-family:Arial,sans-serif;
+
 background:#f2f2f2;
+
 margin:0;
+
 padding:15px;
+
 }
 
 .container{
+
 max-width:1200px;
+
 margin:auto;
+
 background:white;
+
 padding:20px;
+
 border-radius:10px;
+
 box-shadow:0 0 10px rgba(0,0,0,.2);
+
 }
 
 h1,h2{
+
 text-align:center;
+
 margin:0;
+
 }
 
 .grid{
+
 display:grid;
+
 grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
 gap:10px;
+
 margin-top:20px;
+
 }
 
 input,select,button,textarea{
+
 padding:12px;
+
 border:1px solid black;
+
 border-radius:5px;
+
 font-size:14px;
+
 }
 
 button{
+
 background:black;
+
 color:white;
+
 font-weight:bold;
+
 cursor:pointer;
+
 }
 
 .folder{
+
 border:2px solid black;
+
 padding:10px;
+
 margin-top:15px;
+
 border-radius:10px;
+
 }
 
 .folder-title{
+
 font-size:22px;
+
 font-weight:bold;
+
 margin-bottom:10px;
+
 cursor:pointer;
+
 }
 
 .card{
+
 border:1px solid #ccc;
+
 border-radius:10px;
+
 padding:10px;
+
 margin-top:10px;
+
 background:#f8f8f8;
+
 }
 
 .card img{
+
 width:100%;
+
 max-width:180px;
+
 border-radius:8px;
+
 margin-top:5px;
+
 border:1px solid #ccc;
+
 }
 
 .top-buttons{
+
 display:flex;
+
 gap:10px;
+
 flex-wrap:wrap;
+
 margin-top:10px;
+
 }
 
 .red{
+
 background:red;
+
 }
 
 .gray{
+
 background:#444;
+
 }
 
 textarea{
+
 width:100%;
+
 height:120px;
+
 }
 
 </style>
+
 </head>
 
 <body>
@@ -107,6 +177,7 @@ height:120px;
 <div class="container">
 
 <h1>VELOCIMETROS CHARLY</h1>
+
 <h2>FOTO REPORT</h2>
 
 <div class="grid">
@@ -140,11 +211,15 @@ height:120px;
 <textarea id="whatsappText" placeholder="PEGA AQUÍ EL TEXTO DE WHATSAPP"></textarea>
 
 <button onclick="importarWhatsApp()">
+
 IMPORTAR WHATSAPP
+
 </button>
 
 <button onclick="agregarRegistro()">
+
 AGREGAR VEHÍCULO
+
 </button>
 
 </div>
@@ -188,13 +263,19 @@ function crearCarpeta(){
 let nombre = document.getElementById('newFolder').value.trim().toUpperCase();
 
 if(!nombre){
+
 alert('Escribe nombre');
+
 return;
+
 }
 
 if(data.folders.includes(nombre)){
+
 alert('Ya existe');
+
 return;
+
 }
 
 data.folders.push(nombre);
@@ -216,9 +297,13 @@ let texto = document.getElementById('whatsappText').value;
 let lineas = texto.split('\n');
 
 let auto = '';
+
 let placa = '';
+
 let kmAnterior = '';
+
 let kmNuevo = '';
+
 let vin = '';
 
 lineas.forEach(linea=>{
@@ -324,11 +409,17 @@ let fechaAuto = new Date().toLocaleDateString('es-MX');
 data.records.push({
 
 folder,
+
 archivo,
+
 placas,
+
 kmAnterior,
+
 kmNuevo,
+
 vin,
+
 textoWhatsapp,
 
 fotoAnterior: fotoAnterior ? URL.createObjectURL(fotoAnterior) : '',
@@ -442,23 +533,35 @@ FECHA: ${r.fecha}<br><br>
 <div class="top-buttons">
 
 <div>
+
 KM ANTERIOR<br>
+
 <img src="${r.fotoAnterior}">
+
 </div>
 
 <div>
+
 KM NUEVO<br>
+
 <img src="${r.fotoNuevo}">
+
 </div>
 
 <div>
+
 VEHÍCULO<br>
+
 <img src="${r.fotoVehiculo}">
+
 </div>
 
 <div>
+
 VIN<br>
+
 <img src="${r.fotoVin}">
+
 </div>
 
 </div>
@@ -466,11 +569,15 @@ VIN<br>
 <div class="top-buttons">
 
 <button class="gray">
+
 PDF
+
 </button>
 
 <button class="red" onclick="borrarRegistro(${index})">
+
 BORRAR
+
 </button>
 
 </div>
@@ -512,4 +619,5 @@ renderFolders();
 </script>
 
 </body>
+
 </html>
