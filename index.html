@@ -1,256 +1,321 @@
 <!DOCTYPE html>
-
 <html lang="es">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Foto Report</title>
+<title>FOTO REPORT</title>
 
 <style>
 
 body{
-
 font-family:Arial,sans-serif;
-
 background:#f2f2f2;
-
 margin:0;
-
 padding:15px;
-
 }
 
 .container{
-
-max-width:1400px;
-
+max-width:1200px;
 margin:auto;
-
 background:white;
-
 padding:20px;
-
-border-radius:15px;
-
-box-shadow:0 0 10px rgba(0,0,0,.2);
-
+border-radius:25px;
+box-shadow:0 0 20px rgba(0,0,0,0.15);
 }
 
-h1,h2{
-
+h1{
 text-align:center;
-
-margin:0;
-
+font-size:45px;
+margin-bottom:25px;
 }
 
-.grid{
-
+.top-grid{
 display:grid;
-
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-
-gap:10px;
-
-margin-top:20px;
-
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-bottom:15px;
 }
 
-input,select,button,textarea{
-
-padding:12px;
-
-border:2px solid black;
-
-border-radius:8px;
-
-font-size:14px;
-
+input,
+select,
+textarea{
+width:100%;
+padding:18px;
+border-radius:18px;
+border:4px solid black;
+font-size:18px;
 box-sizing:border-box;
-
-}
-
-button{
-
-background:black;
-
-color:white;
-
-font-weight:bold;
-
-cursor:pointer;
-
 }
 
 textarea{
+height:220px;
+resize:none;
+}
 
+button{
 width:100%;
+padding:18px;
+border:none;
+border-radius:18px;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+transition:0.2s;
+}
 
-height:150px;
+button:hover{
+transform:scale(1.02);
+}
 
+.black-btn{
+background:black;
+color:white;
+margin-top:10px;
+}
+
+.save-btn{
+background:#ff00ff;
+color:white;
+margin-top:10px;
+box-shadow:0 0 25px #ff00ff;
 }
 
 .folder{
-
-border:3px solid black;
-
+border:4px solid black;
+border-radius:22px;
 padding:15px;
-
 margin-top:20px;
+background:white;
+}
 
-border-radius:15px;
-
+.folder-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:10px;
 }
 
 .folder-title{
-
-font-size:28px;
-
+font-size:45px;
 font-weight:bold;
-
-cursor:pointer;
-
 }
 
-.card{
-
-border:2px solid #ccc;
-
-padding:15px;
-
-margin-top:15px;
-
-border-radius:15px;
-
-background:#fafafa;
-
-}
-
-.photos{
-
-display:grid;
-
-grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-
+.folder-buttons{
+display:flex;
 gap:10px;
+}
 
-margin-top:10px;
+.delete-folder-btn{
+background:red;
+color:white;
+width:auto;
+padding:15px 20px;
+}
 
+.pdf-folder-btn{
+background:#444;
+color:white;
+width:auto;
+padding:15px 20px;
+}
+
+.record{
+border:3px solid #ccc;
+border-radius:20px;
+padding:15px;
+margin-top:15px;
+}
+
+.photo-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:15px;
 }
 
 .photo-box{
-
-border:2px dashed #aaa;
-
-padding:5px;
-
-border-radius:10px;
-
-background:white;
-
+border:3px dashed #ff00ff;
+border-radius:18px;
+padding:10px;
 text-align:center;
+background:#fff;
+min-height:220px;
+position:relative;
+overflow:hidden;
+}
 
+.photo-box.dragover{
+background:#ffe6ff;
 }
 
 .photo-box img{
-
 width:100%;
-
-height:180px;
-
+height:200px;
 object-fit:cover;
-
-border-radius:10px;
-
-}
-
-.top-buttons{
-
-display:flex;
-
-gap:10px;
-
-flex-wrap:wrap;
-
+border-radius:15px;
 margin-top:10px;
-
 }
 
-.red{
-
-background:red;
-
+.photo-title{
+font-weight:bold;
+font-size:18px;
+margin-bottom:10px;
 }
 
-.gray{
-
-background:#444;
-
+.file-input{
+margin-top:10px;
 }
 
-.blue{
-
-background:#007bff;
-
+.move-buttons{
+display:flex;
+gap:5px;
+margin-top:10px;
 }
 
-.green{
+.move-buttons button{
+padding:8px;
+font-size:14px;
+background:#ff00ff;
+color:white;
+}
 
-background:green;
+.info{
+font-size:18px;
+line-height:1.6;
+margin-top:10px;
+}
+
+@media(max-width:700px){
+
+.top-grid{
+grid-template-columns:1fr;
+}
+
+.photo-grid{
+grid-template-columns:1fr;
+}
+
+.folder-title{
+font-size:28px;
+}
 
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<h1>VELOCIMETROS CHARLY</h1>
+<h1>FOTO REPORT</h1>
 
-<h2>FOTO REPORT</h2>
-
-<div class="grid">
+<div class="top-grid">
 
 <select id="folderSelect"></select>
 
-<input type="text" id="newFolder" placeholder="Nueva carpeta">
-
-<button onclick="crearCarpeta()">CREAR CARPETA</button>
-
-<input type="file" id="fotoAnterior" accept="image/*">
-
-<input type="file" id="fotoNuevo" accept="image/*">
-
-<input type="file" id="fotoVehiculo" accept="image/*">
-
-<input type="file" id="fotoVin" accept="image/*">
+<input type="text"
+id="newFolder"
+placeholder="Nueva carpeta">
 
 </div>
 
-<div class="top-buttons">
+<button class="black-btn"
+onclick="createFolder()">
+CREAR CARPETA
+</button>
 
-<textarea id="whatsappText" placeholder="PEGA AQUÍ EL TEXTO DE WHATSAPP"></textarea>
+<div class="top-grid" style="margin-top:15px;">
 
-<button onclick="importarWhatsApp()">
+<div class="photo-box"
+ondrop="dropImage(event,'img1')"
+ondragover="allowDrop(event)"
+ondragleave="removeDrag(event)">
 
+<div class="photo-title">
+KM ANTERIOR
+</div>
+
+<input type="file"
+accept="image/*"
+class="file-input"
+onchange="loadImage(event,'img1')">
+
+<img id="img1Preview">
+
+</div>
+
+<div class="photo-box"
+ondrop="dropImage(event,'img2')"
+ondragover="allowDrop(event)"
+ondragleave="removeDrag(event)">
+
+<div class="photo-title">
+KM NUEVO
+</div>
+
+<input type="file"
+accept="image/*"
+class="file-input"
+onchange="loadImage(event,'img2')">
+
+<img id="img2Preview">
+
+</div>
+
+<div class="photo-box"
+ondrop="dropImage(event,'img3')"
+ondragover="allowDrop(event)"
+ondragleave="removeDrag(event)">
+
+<div class="photo-title">
+VEHÍCULO / TARJETA
+</div>
+
+<input type="file"
+accept="image/*"
+class="file-input"
+onchange="loadImage(event,'img3')">
+
+<img id="img3Preview">
+
+</div>
+
+<div class="photo-box"
+ondrop="dropImage(event,'img4')"
+ondragover="allowDrop(event)"
+ondragleave="removeDrag(event)">
+
+<div class="photo-title">
+VIN
+</div>
+
+<input type="file"
+accept="image/*"
+class="file-input"
+onchange="loadImage(event,'img4')">
+
+<img id="img4Preview">
+
+</div>
+
+</div>
+
+<textarea
+id="whatsappText"
+placeholder="PEGA AQUÍ EL TEXTO DE WHATSAPP"></textarea>
+
+<button class="black-btn"
+onclick="importWhatsApp()">
 IMPORTAR WHATSAPP
-
 </button>
 
-<button onclick="agregarRegistro()">
-
-AGREGAR VEHÍCULO
-
+<button class="save-btn"
+onclick="saveRecord()">
+GUARDAR REPORTE
 </button>
-
-</div>
 
 <div id="folders"></div>
 
@@ -258,476 +323,233 @@ AGREGAR VEHÍCULO
 
 <script>
 
-let auto='';
-
-let placa='';
-
-let kmAnterior='';
-
-let kmNuevo='';
-
-let vin='';
-
-let data = JSON.parse(localStorage.getItem('fotoreport')) || {
-
-folders:['AVEO','L200','HB20','F-150'],
-
+let data = JSON.parse(localStorage.getItem('photoReportData')) || {
+folders:[],
 records:[]
+};
 
+let images = {
+img1:"",
+img2:"",
+img3:"",
+img4:""
 };
 
 function saveData(){
+localStorage.setItem(
+'photoReportData',
+JSON.stringify(data)
+);
+}
 
-localStorage.setItem('fotoreport',JSON.stringify(data));
+function createFolder(){
+
+let folder =
+document.getElementById('newFolder').value.trim();
+
+if(folder === "") return;
+
+if(!data.folders.includes(folder)){
+data.folders.push(folder);
+saveData();
+renderFolderSelect();
+renderFolders();
+}
+
+document.getElementById('newFolder').value = "";
 
 }
 
 function renderFolderSelect(){
 
-let select = document.getElementById('folderSelect');
+let select =
+document.getElementById('folderSelect');
 
-select.innerHTML='';
+select.innerHTML = "";
 
-data.folders.forEach(f=>{
+data.folders.forEach(folder=>{
 
-select.innerHTML += `<option value="${f}">${f}</option>`;
-
-});
-
-}
-
-function crearCarpeta(){
-
-let nombre = document.getElementById('newFolder').value.trim().toUpperCase();
-
-if(!nombre)return;
-
-if(data.folders.includes(nombre))return;
-
-data.folders.push(nombre);
-
-saveData();
-
-renderFolderSelect();
-
-renderFolders();
-
-document.getElementById('newFolder').value='';
-
-}
-
-function importarWhatsApp(){
-
-let texto = document.getElementById('whatsappText').value;
-
-let lineas = texto.split('\n');
-
-lineas.forEach(linea=>{
-
-let l = linea.replace(/\*/g,'').trim();
-
-if(l.includes('AUTO')){
-
-auto = l.split(':')[1]?.trim() || '';
-
-let autoUpper = auto.toUpperCase();
-
-if(autoUpper !== '' && !data.folders.includes(autoUpper)){
-
-data.folders.push(autoUpper);
-
-saveData();
-
-renderFolderSelect();
-
-renderFolders();
-
-}
-
-}
-
-if(l.includes('PLACA')){
-
-placa = l.split(':')[1]?.trim() || '';
-
-}
-
-if(l.includes('KM anterior')){
-
-kmAnterior = l.split(':')[1]?.trim() || '';
-
-}
-
-if(l.includes('CORECTO KM')){
-
-kmNuevo = l.split(':')[1]?.trim() || '';
-
-}
-
-if(l.includes('VIN')){
-
-vin = l.split(':')[1]?.trim() || '';
-
-}
-
-});
-
-document.getElementById('folderSelect').value = auto.toUpperCase();
-
-alert('Datos importados');
-
-}
-
-function agregarRegistro(){
-
-let folder = document.getElementById('folderSelect').value;
-
-let textoWhatsapp = document.getElementById('whatsappText').value;
-
-let fotoAnterior = document.getElementById('fotoAnterior').files[0];
-
-let fotoNuevo = document.getElementById('fotoNuevo').files[0];
-
-let fotoVehiculo = document.getElementById('fotoVehiculo').files[0];
-
-let fotoVin = document.getElementById('fotoVin').files[0];
-
-if(!folder || !textoWhatsapp){
-
-alert('Faltan datos');
-
-return;
-
-}
-
-let existentes = data.records.filter(r=>r.folder===folder);
-
-let numeroArchivo = Math.floor(existentes.length / 20) + 1;
-
-let archivo = folder + '_RF' + numeroArchivo;
-
-let fechaAuto = new Date().toLocaleDateString('es-MX');
-
-data.records.push({
-
-folder,
-
-archivo,
-
-placa,
-
-kmAnterior,
-
-kmNuevo,
-
-vin,
-
-textoWhatsapp,
-
-fotoAnterior: fotoAnterior ? URL.createObjectURL(fotoAnterior) : '',
-
-fotoNuevo: fotoNuevo ? URL.createObjectURL(fotoNuevo) : '',
-
-fotoVehiculo: fotoVehiculo ? URL.createObjectURL(fotoVehiculo) : '',
-
-fotoVin: fotoVin ? URL.createObjectURL(fotoVin) : '',
-
-fecha:fechaAuto
-
-});
-
-saveData();
-
-renderFolders();
-
-document.getElementById('whatsappText').value='';
-
-alert('Vehículo agregado');
-
-}
-
-function borrarRegistro(index){
-
-if(confirm('¿Borrar vehículo?')){
-
-data.records.splice(index,1);
-
-saveData();
-
-renderFolders();
-
-}
-
-}
-
-function borrarCarpeta(folder){
-
-if(confirm('¿Borrar carpeta?')){
-
-data.records = data.records.filter(r=>r.folder!==folder);
-
-data.folders = data.folders.filter(f=>f!==folder);
-
-saveData();
-
-renderFolderSelect();
-
-renderFolders();
-
-}
-
-}
-
-function moverFoto(index,tipo1,tipo2){
-
-let temp = data.records[index][tipo1];
-
-data.records[index][tipo1] = data.records[index][tipo2];
-
-data.records[index][tipo2] = temp;
-
-saveData();
-
-renderFolders();
-
-}
-
-function generarPDF(folder){
-
-let registros = data.records.filter(r=>r.folder===folder);
-
-let ventana = window.open('','','width=1600,height=900');
-
-let html='';
-
-registros.forEach((r,i)=>{
-
-html += `
-
-<table style="width:100%;border-collapse:collapse;margin-bottom:20px;">
-
-<tr>
-
-<th style="border:1px solid black;">NUM</th>
-
-<th style="border:1px solid black;">VEHICULO</th>
-
-<th style="border:1px solid black;">KM ANTERIOR</th>
-
-<th style="border:1px solid black;">KM NUEVO</th>
-
-<th style="border:1px solid black;">VEHICULO</th>
-
-<th style="border:1px solid black;">VIN</th>
-
-<th style="border:1px solid black;">FOTO WHATSAPP</th>
-
-<th style="border:1px solid black;">FECHA</th>
-
-</tr>
-
-<tr>
-
-<td style="border:1px solid black;">${i+1}</td>
-
-<td style="border:1px solid black;">${r.folder}</td>
-
-<td style="border:1px solid black;">
-
-<img src="${r.fotoAnterior}" style="width:180px;height:300px;object-fit:cover;">
-
-</td>
-
-<td style="border:1px solid black;">
-
-<img src="${r.fotoNuevo}" style="width:180px;height:300px;object-fit:cover;">
-
-</td>
-
-<td style="border:1px solid black;">
-
-<img src="${r.fotoVehiculo}" style="width:180px;height:300px;object-fit:cover;">
-
-</td>
-
-<td style="border:1px solid black;">
-
-<img src="${r.fotoVin}" style="width:180px;height:300px;object-fit:cover;">
-
-</td>
-
-<td style="border:1px solid black;white-space:pre-line;font-weight:bold;">
-
-${r.textoWhatsapp}
-
-</td>
-
-<td style="border:1px solid black;">
-
-${r.fecha}
-
-</td>
-
-</tr>
-
-</table>
-
+select.innerHTML += `
+<option value="${folder}">
+${folder}
+</option>
 `;
 
 });
 
-ventana.document.write(`
+}
 
-<html>
+function loadImage(event,key){
 
-<head>
+let file = event.target.files[0];
 
-<title>${folder}</title>
+if(!file) return;
 
-</head>
+let reader = new FileReader();
 
-<body>
+reader.onload = function(e){
 
-${html}
+images[key] = e.target.result;
 
-<script>
+document.getElementById(
+key + 'Preview'
+).src = e.target.result;
 
-window.print()
+};
 
-</script>
+reader.readAsDataURL(file);
 
-</body>
+}
 
-</html>
+function allowDrop(event){
+event.preventDefault();
+event.currentTarget.classList.add('dragover');
+}
 
-`);
+function removeDrag(event){
+event.currentTarget.classList.remove('dragover');
+}
+
+function dropImage(event,key){
+
+event.preventDefault();
+
+event.currentTarget.classList.remove('dragover');
+
+let file = event.dataTransfer.files[0];
+
+if(!file) return;
+
+let reader = new FileReader();
+
+reader.onload = function(e){
+
+images[key] = e.target.result;
+
+document.getElementById(
+key + 'Preview'
+).src = e.target.result;
+
+};
+
+reader.readAsDataURL(file);
+
+}
+
+async function saveRecord(){
+
+let folder =
+document.getElementById('folderSelect').value;
+
+if(folder === ""){
+alert("CREA UNA CARPETA");
+return;
+}
+
+let text =
+document.getElementById('whatsappText').value;
+
+let record = {
+folder,
+text,
+date:new Date().toLocaleString(),
+photos:[
+images.img1,
+images.img2,
+images.img3,
+images.img4
+]
+};
+
+data.records.push(record);
+
+saveData();
+
+renderFolders();
+
+alert("REPORTE GUARDADO");
+
+document.getElementById('whatsappText').value = "";
 
 }
 
 function renderFolders(){
 
-let div = document.getElementById('folders');
+let div =
+document.getElementById('folders');
 
-div.innerHTML='';
+div.innerHTML = "";
 
 data.folders.forEach(folder=>{
 
-let registros = data.records.filter(r=>r.folder===folder);
+let registros =
+data.records.filter(
+r=>r.folder===folder
+);
 
 div.innerHTML += `
 
 <div class="folder">
 
-<div class="folder-title" onclick="toggleFolder('${folder}')">
+<div class="folder-header">
 
-📁 ${folder}
-
+<div class="folder-title">
+📂 ${folder}
 </div>
 
-<div class="top-buttons">
+<div class="folder-buttons">
 
-<button class="red" onclick="borrarCarpeta('${folder}')">
-
+<button class="delete-folder-btn"
+onclick="deleteFolder('${folder}')">
 BORRAR CARPETA
-
 </button>
 
-<button class="gray" onclick="generarPDF('${folder}')">
-
+<button class="pdf-folder-btn"
+onclick="generateFolderPDF('${folder}')">
 PDF
-
 </button>
 
 </div>
 
-<div id="content_${folder}" style="display:none;">
+</div>
 
 ${registros.map((r,index)=>`
 
-<div class="card">
+<div class="record">
 
-<b>📄 ${r.archivo}</b><br><br>
+<div class="info">
 
-PLACA: ${r.placa}<br>
+<b>FECHA:</b> ${r.date}
+<br><br>
 
-KM ANTERIOR: ${r.kmAnterior}<br>
+${r.text.replace(/\n/g,'<br>')}
 
-KM NUEVO: ${r.kmNuevo}<br>
+</div>
 
-VIN: ${r.vin}<br>
+<div class="photo-grid">
 
-FECHA: ${r.fecha}<br><br>
-
-<pre>${r.textoWhatsapp}</pre>
-
-<div class="photos">
+${r.photos.map((p,i)=>`
 
 <div class="photo-box">
 
-KM ANTERIOR
+<img src="${p}">
 
-<img src="${r.fotoAnterior}">
+<div class="move-buttons">
 
-<button class="blue"
-
-onclick="moverFoto(${index},'fotoAnterior','fotoNuevo')">
-
-↔ KM NUEVO
-
+<button onclick="
+movePhoto('${folder}',
+${index},
+${i},
+-1)">
+⬅
 </button>
 
-</div>
-
-<div class="photo-box">
-
-KM NUEVO
-
-<img src="${r.fotoNuevo}">
-
-<button class="blue"
-
-onclick="moverFoto(${index},'fotoNuevo','fotoVehiculo')">
-
-↔ VEHICULO
-
-</button>
-
-</div>
-
-<div class="photo-box">
-
-VEHICULO
-
-<img src="${r.fotoVehiculo}">
-
-<button class="blue"
-
-onclick="moverFoto(${index},'fotoVehiculo','fotoVin')">
-
-↔ VIN
-
-</button>
-
-</div>
-
-<div class="photo-box">
-
-VIN
-
-<img src="${r.fotoVin}">
-
-</div>
-
-</div>
-
-<div class="top-buttons">
-
-<button class="red"
-
-onclick="borrarRegistro(${index})">
-
-BORRAR
-
+<button onclick="
+movePhoto('${folder}',
+${index},
+${i},
+1)">
+➡
 </button>
 
 </div>
@@ -740,25 +562,76 @@ BORRAR
 
 </div>
 
+`).join('')}
+
+</div>
+
 `;
 
 });
 
 }
 
-function toggleFolder(folder){
+function movePhoto(folder,recordIndex,photoIndex,direction){
 
-let div = document.getElementById('content_' + folder);
+let record =
+data.records.filter(
+r=>r.folder===folder
+)[recordIndex];
 
-if(div.style.display === 'none'){
+let newIndex =
+photoIndex + direction;
 
-div.style.display='block';
+if(newIndex < 0 || newIndex > 3) return;
 
-}else{
+let temp =
+record.photos[photoIndex];
 
-div.style.display='none';
+record.photos[photoIndex] =
+record.photos[newIndex];
+
+record.photos[newIndex] = temp;
+
+saveData();
+
+renderFolders();
 
 }
+
+function deleteFolder(folder){
+
+if(!confirm("BORRAR CARPETA?")) return;
+
+data.records =
+data.records.filter(
+r=>r.folder!==folder
+);
+
+data.folders =
+data.folders.filter(
+f=>f!==folder
+);
+
+saveData();
+
+renderFolderSelect();
+
+renderFolders();
+
+}
+
+function importWhatsApp(){
+
+let text =
+document.getElementById('whatsappText').value;
+
+alert("TEXTO IMPORTADO");
+
+}
+
+function generateFolderPDF(folder){
+
+window.print();
 
 }
 
@@ -769,5 +642,4 @@ renderFolders();
 </script>
 
 </body>
-
 </html>
