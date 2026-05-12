@@ -26,7 +26,7 @@ padding:15px;
 
 .container{
 
-max-width:1200px;
+max-width:1400px;
 
 margin:auto;
 
@@ -34,7 +34,7 @@ background:white;
 
 padding:20px;
 
-border-radius:10px;
+border-radius:15px;
 
 box-shadow:0 0 10px rgba(0,0,0,.2);
 
@@ -64,11 +64,13 @@ input,select,button,textarea{
 
 padding:12px;
 
-border:1px solid black;
+border:2px solid black;
 
-border-radius:5px;
+border-radius:8px;
 
 font-size:14px;
+
+box-sizing:border-box;
 
 }
 
@@ -84,25 +86,31 @@ cursor:pointer;
 
 }
 
+textarea{
+
+width:100%;
+
+height:150px;
+
+}
+
 .folder{
 
-border:2px solid black;
+border:3px solid black;
 
-padding:10px;
+padding:15px;
 
-margin-top:15px;
+margin-top:20px;
 
-border-radius:10px;
+border-radius:15px;
 
 }
 
 .folder-title{
 
-font-size:22px;
+font-size:28px;
 
 font-weight:bold;
-
-margin-bottom:10px;
 
 cursor:pointer;
 
@@ -110,29 +118,53 @@ cursor:pointer;
 
 .card{
 
-border:1px solid #ccc;
+border:2px solid #ccc;
 
-border-radius:10px;
+padding:15px;
 
-padding:10px;
+margin-top:15px;
 
-margin-top:10px;
+border-radius:15px;
 
-background:#f8f8f8;
+background:#fafafa;
 
 }
 
-.card img{
+.photos{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+
+gap:10px;
+
+margin-top:10px;
+
+}
+
+.photo-box{
+
+border:2px dashed #aaa;
+
+padding:5px;
+
+border-radius:10px;
+
+background:white;
+
+text-align:center;
+
+}
+
+.photo-box img{
 
 width:100%;
 
-max-width:180px;
+height:180px;
 
-border-radius:8px;
+object-fit:cover;
 
-margin-top:5px;
-
-border:1px solid #ccc;
+border-radius:10px;
 
 }
 
@@ -160,11 +192,15 @@ background:#444;
 
 }
 
-textarea{
+.blue{
 
-width:100%;
+background:#007bff;
 
-height:120px;
+}
+
+.green{
+
+background:green;
 
 }
 
@@ -187,14 +223,6 @@ height:120px;
 <input type="text" id="newFolder" placeholder="Nueva carpeta">
 
 <button onclick="crearCarpeta()">CREAR CARPETA</button>
-
-<input type="text" id="placas" placeholder="PLACAS">
-
-<input type="number" id="kmAnterior" placeholder="KM ANTERIOR">
-
-<input type="number" id="kmNuevo" placeholder="KM NUEVO">
-
-<input type="text" id="vin" placeholder="VIN">
 
 <input type="file" id="fotoAnterior" accept="image/*">
 
@@ -230,6 +258,16 @@ AGREGAR VEHÍCULO
 
 <script>
 
+let auto='';
+
+let placa='';
+
+let kmAnterior='';
+
+let kmNuevo='';
+
+let vin='';
+
 let data = JSON.parse(localStorage.getItem('fotoreport')) || {
 
 folders:['AVEO','L200','HB20','F-150'],
@@ -262,21 +300,9 @@ function crearCarpeta(){
 
 let nombre = document.getElementById('newFolder').value.trim().toUpperCase();
 
-if(!nombre){
+if(!nombre)return;
 
-alert('Escribe nombre');
-
-return;
-
-}
-
-if(data.folders.includes(nombre)){
-
-alert('Ya existe');
-
-return;
-
-}
+if(data.folders.includes(nombre))return;
 
 data.folders.push(nombre);
 
@@ -295,16 +321,6 @@ function importarWhatsApp(){
 let texto = document.getElementById('whatsappText').value;
 
 let lineas = texto.split('\n');
-
-let auto = '';
-
-let placa = '';
-
-let kmAnterior = '';
-
-let kmNuevo = '';
-
-let vin = '';
 
 lineas.forEach(linea=>{
 
@@ -358,27 +374,13 @@ vin = l.split(':')[1]?.trim() || '';
 
 document.getElementById('folderSelect').value = auto.toUpperCase();
 
-document.getElementById('placas').value = placa;
-
-document.getElementById('kmAnterior').value = kmAnterior;
-
-document.getElementById('kmNuevo').value = kmNuevo;
-
-document.getElementById('vin').value = vin;
+alert('Datos importados');
 
 }
 
 function agregarRegistro(){
 
 let folder = document.getElementById('folderSelect').value;
-
-let placas = document.getElementById('placas').value;
-
-let kmAnterior = document.getElementById('kmAnterior').value;
-
-let kmNuevo = document.getElementById('kmNuevo').value;
-
-let vin = document.getElementById('vin').value;
 
 let textoWhatsapp = document.getElementById('whatsappText').value;
 
@@ -390,9 +392,9 @@ let fotoVehiculo = document.getElementById('fotoVehiculo').files[0];
 
 let fotoVin = document.getElementById('fotoVin').files[0];
 
-if(!folder || !placas || !kmAnterior || !kmNuevo){
+if(!folder || !textoWhatsapp){
 
-alert('Completa los datos');
+alert('Faltan datos');
 
 return;
 
@@ -412,7 +414,7 @@ folder,
 
 archivo,
 
-placas,
+placa,
 
 kmAnterior,
 
@@ -438,15 +440,9 @@ saveData();
 
 renderFolders();
 
-document.getElementById('placas').value='';
-
-document.getElementById('kmAnterior').value='';
-
-document.getElementById('kmNuevo').value='';
-
-document.getElementById('vin').value='';
-
 document.getElementById('whatsappText').value='';
+
+alert('Vehículo agregado');
 
 }
 
@@ -466,7 +462,7 @@ renderFolders();
 
 function borrarCarpeta(folder){
 
-if(confirm('¿Borrar carpeta completa?')){
+if(confirm('¿Borrar carpeta?')){
 
 data.records = data.records.filter(r=>r.folder!==folder);
 
@@ -479,6 +475,132 @@ renderFolderSelect();
 renderFolders();
 
 }
+
+}
+
+function moverFoto(index,tipo1,tipo2){
+
+let temp = data.records[index][tipo1];
+
+data.records[index][tipo1] = data.records[index][tipo2];
+
+data.records[index][tipo2] = temp;
+
+saveData();
+
+renderFolders();
+
+}
+
+function generarPDF(folder){
+
+let registros = data.records.filter(r=>r.folder===folder);
+
+let ventana = window.open('','','width=1600,height=900');
+
+let html='';
+
+registros.forEach((r,i)=>{
+
+html += `
+
+<table style="width:100%;border-collapse:collapse;margin-bottom:20px;">
+
+<tr>
+
+<th style="border:1px solid black;">NUM</th>
+
+<th style="border:1px solid black;">VEHICULO</th>
+
+<th style="border:1px solid black;">KM ANTERIOR</th>
+
+<th style="border:1px solid black;">KM NUEVO</th>
+
+<th style="border:1px solid black;">VEHICULO</th>
+
+<th style="border:1px solid black;">VIN</th>
+
+<th style="border:1px solid black;">FOTO WHATSAPP</th>
+
+<th style="border:1px solid black;">FECHA</th>
+
+</tr>
+
+<tr>
+
+<td style="border:1px solid black;">${i+1}</td>
+
+<td style="border:1px solid black;">${r.folder}</td>
+
+<td style="border:1px solid black;">
+
+<img src="${r.fotoAnterior}" style="width:180px;height:300px;object-fit:cover;">
+
+</td>
+
+<td style="border:1px solid black;">
+
+<img src="${r.fotoNuevo}" style="width:180px;height:300px;object-fit:cover;">
+
+</td>
+
+<td style="border:1px solid black;">
+
+<img src="${r.fotoVehiculo}" style="width:180px;height:300px;object-fit:cover;">
+
+</td>
+
+<td style="border:1px solid black;">
+
+<img src="${r.fotoVin}" style="width:180px;height:300px;object-fit:cover;">
+
+</td>
+
+<td style="border:1px solid black;white-space:pre-line;font-weight:bold;">
+
+${r.textoWhatsapp}
+
+</td>
+
+<td style="border:1px solid black;">
+
+${r.fecha}
+
+</td>
+
+</tr>
+
+</table>
+
+`;
+
+});
+
+ventana.document.write(`
+
+<html>
+
+<head>
+
+<title>${folder}</title>
+
+</head>
+
+<body>
+
+${html}
+
+<script>
+
+window.print()
+
+</script>
+
+</body>
+
+</html>
+
+`);
 
 }
 
@@ -502,11 +624,21 @@ div.innerHTML += `
 
 </div>
 
+<div class="top-buttons">
+
 <button class="red" onclick="borrarCarpeta('${folder}')">
 
 BORRAR CARPETA
 
 </button>
+
+<button class="gray" onclick="generarPDF('${folder}')">
+
+PDF
+
+</button>
+
+</div>
 
 <div id="content_${folder}" style="display:none;">
 
@@ -514,7 +646,9 @@ ${registros.map((r,index)=>`
 
 <div class="card">
 
-<b>🚗 ${r.placas}</b><br><br>
+<b>📄 ${r.archivo}</b><br><br>
+
+PLACA: ${r.placa}<br>
 
 KM ANTERIOR: ${r.kmAnterior}<br>
 
@@ -522,43 +656,63 @@ KM NUEVO: ${r.kmNuevo}<br>
 
 VIN: ${r.vin}<br>
 
-ARCHIVO: ${r.archivo}<br>
-
 FECHA: ${r.fecha}<br><br>
-
-<b>WHATSAPP:</b><br>
 
 <pre>${r.textoWhatsapp}</pre>
 
-<div class="top-buttons">
+<div class="photos">
 
-<div>
+<div class="photo-box">
 
-KM ANTERIOR<br>
+KM ANTERIOR
 
 <img src="${r.fotoAnterior}">
 
+<button class="blue"
+
+onclick="moverFoto(${index},'fotoAnterior','fotoNuevo')">
+
+↔ KM NUEVO
+
+</button>
+
 </div>
 
-<div>
+<div class="photo-box">
 
-KM NUEVO<br>
+KM NUEVO
 
 <img src="${r.fotoNuevo}">
 
+<button class="blue"
+
+onclick="moverFoto(${index},'fotoNuevo','fotoVehiculo')">
+
+↔ VEHICULO
+
+</button>
+
 </div>
 
-<div>
+<div class="photo-box">
 
-VEHÍCULO<br>
+VEHICULO
 
 <img src="${r.fotoVehiculo}">
 
+<button class="blue"
+
+onclick="moverFoto(${index},'fotoVehiculo','fotoVin')">
+
+↔ VIN
+
+</button>
+
 </div>
 
-<div>
+<div class="photo-box">
 
-VIN<br>
+VIN
 
 <img src="${r.fotoVin}">
 
@@ -568,13 +722,9 @@ VIN<br>
 
 <div class="top-buttons">
 
-<button class="gray">
+<button class="red"
 
-PDF
-
-</button>
-
-<button class="red" onclick="borrarRegistro(${index})">
+onclick="borrarRegistro(${index})">
 
 BORRAR
 
