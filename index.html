@@ -24,8 +24,6 @@ border-radius:30px;
 box-shadow:0 0 15px rgba(0,0,0,0.15);
 }
 
-/* ========= LOGO ========= */
-
 .logo{
 text-align:center;
 font-size:40px;
@@ -39,21 +37,14 @@ text-shadow:
 0 0 5px #00f7ff,
 0 0 10px #00f7ff,
 2px 2px 0px black;
-background:linear-gradient(
-145deg,
-#111,
-#000
-);
+background:linear-gradient(145deg,#111,#000);
 padding:10px 25px;
 border-radius:18px;
 width:fit-content;
 margin-left:auto;
 margin-right:auto;
-box-shadow:
-0 0 15px #00e5ff;
+box-shadow:0 0 15px #00e5ff;
 }
-
-/* ========= TEXTAREA ========= */
 
 textarea{
 width:100%;
@@ -64,8 +55,6 @@ border:4px solid black;
 font-size:18px;
 box-sizing:border-box;
 }
-
-/* ========= BOTONES ========= */
 
 button{
 width:100%;
@@ -89,20 +78,13 @@ color:white;
 }
 
 .save-btn{
-background:linear-gradient(
-145deg,
-#ff00ff,
-#ff33cc
-);
+background:linear-gradient(145deg,#ff00ff,#ff33cc);
 color:white;
-box-shadow:
-0 0 18px #ff00ff;
+box-shadow:0 0 18px #ff00ff;
 font-size:24px;
 font-weight:900;
 letter-spacing:1px;
 }
-
-/* ========= FOTO BOX ========= */
 
 .photo-box{
 border:4px dashed #ff4dff;
@@ -120,11 +102,6 @@ margin-bottom:18px;
 font-family:Arial Black;
 }
 
-.photo-box input{
-font-size:15px;
-max-width:100%;
-}
-
 .photo-box img{
 width:100%;
 max-height:260px;
@@ -133,8 +110,6 @@ border-radius:18px;
 margin-top:12px;
 display:none;
 }
-
-/* ========= PREVIEW ========= */
 
 .preview{
 background:#f8f8f8;
@@ -145,8 +120,6 @@ margin-top:15px;
 font-size:18px;
 white-space:pre-line;
 }
-
-/* ========= CARPETAS ========= */
 
 .folder{
 border:4px solid black;
@@ -191,33 +164,22 @@ margin-top:10px;
 
 .delete-folder{
 flex:1;
-background:linear-gradient(
-145deg,
-#00cfff,
-#0066ff
-);
+background:linear-gradient(145deg,#00cfff,#0066ff);
 color:white;
 padding:12px;
 border-radius:18px;
 font-size:16px;
 font-weight:bold;
-box-shadow:
-0 0 10px #00d9ff;
+box-shadow:0 0 10px #00d9ff;
 }
 
 .pdf-btn{
 width:130px;
-background:linear-gradient(
-145deg,
-#444,
-#222
-);
+background:linear-gradient(145deg,#444,#222);
 color:white;
 font-size:16px;
 border-radius:18px;
 }
-
-/* ========= TARJETA VEHÍCULO ========= */
 
 .vehicle-card{
 border:4px solid #00d9ff;
@@ -225,8 +187,7 @@ border-radius:24px;
 padding:12px;
 margin-top:14px;
 background:white;
-box-shadow:
-0 0 10px #00e5ff;
+box-shadow:0 0 10px #00e5ff;
 }
 
 .vehicle-header{
@@ -253,49 +214,27 @@ gap:10px;
 margin-top:12px;
 }
 
-.edit-btn{
+.edit-btn,.move-btn,.delete-vehicle{
 flex:1;
-background:linear-gradient(
-145deg,
-#00e5ff,
-#00bfff
-);
 color:white;
-box-shadow:
-0 0 10px #00e5ff;
 font-size:15px;
 padding:12px;
 border-radius:16px;
+}
+
+.edit-btn{
+background:linear-gradient(145deg,#00e5ff,#00bfff);
+box-shadow:0 0 10px #00e5ff;
 }
 
 .move-btn{
-flex:1;
-background:linear-gradient(
-145deg,
-#ff00ff,
-#d100ff
-);
-color:white;
-box-shadow:
-0 0 10px #ff00ff;
-font-size:15px;
-padding:12px;
-border-radius:16px;
+background:linear-gradient(145deg,#ff00ff,#d100ff);
+box-shadow:0 0 10px #ff00ff;
 }
 
 .delete-vehicle{
-flex:1;
-background:linear-gradient(
-145deg,
-#ff2d2d,
-#ff0000
-);
-color:white;
-box-shadow:
-0 0 10px #ff4d4d;
-font-size:15px;
-padding:12px;
-border-radius:16px;
+background:linear-gradient(145deg,#ff2d2d,#ff0000);
+box-shadow:0 0 10px #ff4d4d;
 }
 
 </style>
@@ -305,9 +244,7 @@ border-radius:16px;
 
 <div class="container" id="mainPage">
 
-<h1 class="logo">
-FOTO REPORT
-</h1>
+<h1 class="logo">FOTO REPORT</h1>
 
 <textarea
 id="textoWhatsapp"
@@ -318,7 +255,9 @@ placeholder="Pega texto WhatsApp aquí">
 <button
 class="import-btn"
 onclick="importarWhatsapp()">
+
 IMPORTAR WHATSAPP
+
 </button>
 
 <!-- FOTO 1 -->
@@ -396,8 +335,11 @@ id="previewTexto">
 
 <button
 class="save-btn"
+id="saveBtn"
 onclick="guardarReporte()">
+
 AGREGAR VEHÍCULO
+
 </button>
 
 <div id="folders"></div>
@@ -448,6 +390,10 @@ let carpetas =
 JSON.parse(localStorage.getItem("carpetas")) || {};
 
 let datosImportados = {};
+
+let editando = false;
+let editFolder = "";
+let editIndex = null;
 
 /* ========= CARGAR FOTO ========= */
 
@@ -576,7 +522,26 @@ document.getElementById(
 
 };
 
+if(editando){
+
+carpetas[editFolder][editIndex] = reporte;
+
+editando = false;
+editFolder = "";
+editIndex = null;
+
+document.getElementById(
+"saveBtn"
+).innerText =
+"AGREGAR VEHÍCULO";
+
+alert("Vehículo actualizado");
+
+}else{
+
 carpetas[vehiculo].push(reporte);
+
+}
 
 localStorage.setItem(
 "carpetas",
@@ -681,9 +646,59 @@ alert(
 
 function editarVehiculo(nombre,index){
 
-alert(
-"Próximamente edición completa"
-);
+let r = carpetas[nombre][index];
+
+datosImportados = {
+
+vehiculo:r.vehiculo,
+placa:r.placa,
+kmAnterior:r.kmAnterior,
+kmNuevo:r.kmNuevo,
+vin:r.vin
+
+};
+
+document.getElementById(
+"textoWhatsapp"
+).value = r.texto;
+
+document.getElementById(
+"previewTexto"
+).innerText = r.texto;
+
+["foto1","foto2","foto3","foto4"]
+.forEach(id=>{
+
+let img =
+document.getElementById(id);
+
+if(r[id]){
+
+img.src = r[id];
+
+img.style.display = "block";
+
+}
+
+});
+
+editando = true;
+
+editFolder = nombre;
+
+editIndex = index;
+
+document.getElementById(
+"saveBtn"
+).innerText =
+"GUARDAR CAMBIOS";
+
+volverInicio();
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
 }
 
@@ -691,9 +706,36 @@ alert(
 
 function moverFotos(nombre,index){
 
-alert(
-"Próximamente mover imágenes"
+let r = carpetas[nombre][index];
+
+let opcion = prompt(
+"¿Qué foto mover?\\n1 = KM anterior\\n2 = KM nuevo\\n3 = Vehículo\\n4 = VIN"
 );
+
+let destino = prompt(
+"¿A qué cuadro mover?\\n1 = KM anterior\\n2 = KM nuevo\\n3 = Vehículo\\n4 = VIN"
+);
+
+if(!opcion || !destino) return;
+
+let origenKey = "foto" + opcion;
+
+let destinoKey = "foto" + destino;
+
+let temp = r[origenKey];
+
+r[origenKey] = r[destinoKey];
+
+r[destinoKey] = temp;
+
+localStorage.setItem(
+"carpetas",
+JSON.stringify(carpetas)
+);
+
+renderFolderPage(nombre);
+
+alert("Fotos movidas");
 
 }
 
@@ -863,7 +905,7 @@ VIN: ${r.vin}
 
 <button
 class="edit-btn"
-onclick="editarVehiculo('${nombre}',${index})">
+onclick="event.stopPropagation();editarVehiculo('${nombre}',${index})">
 
 EDITAR
 
@@ -871,7 +913,7 @@ EDITAR
 
 <button
 class="move-btn"
-onclick="moverFotos('${nombre}',${index})">
+onclick="event.stopPropagation();moverFotos('${nombre}',${index})">
 
 MOVER FOTOS
 
@@ -879,7 +921,7 @@ MOVER FOTOS
 
 <button
 class="delete-vehicle"
-onclick="borrarVehiculo('${nombre}',${index})">
+onclick="event.stopPropagation();borrarVehiculo('${nombre}',${index})">
 
 BORRAR
 
